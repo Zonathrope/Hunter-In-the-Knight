@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Skeleton.png-596a200b168484438e1d6279768adce6.stex"
+path="res://.import/deer_sprite.png-34d01c0c952f42e42eb8734893844b1f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player/assets/Skeleton.png"
-dest_files=[ "res://.import/Skeleton.png-596a200b168484438e1d6279768adce6.stex" ]
+source_file="res://Enemies/Deer/assets/deer_sprite.png"
+dest_files=[ "res://.import/deer_sprite.png-34d01c0c952f42e42eb8734893844b1f.stex" ]
 
 [params]
 

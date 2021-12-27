@@ -1,13 +1,13 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Enemies/Wolf/assets/slime_run_spritesheeet1.png" type="Texture" id=1]
+[ext_resource path="res://Enemies/Rabbit/assets/rabbit_sprite.png" type="Texture" id=1]
 [ext_resource path="res://Enemies/Wolf/scenes/Hurtbox.tscn" type="PackedScene" id=5]
 
 [sub_resource type="GDScript" id=4]
 script/source = "extends KinematicBody2D
 
-const MAX_HP = 5
-var hp = 5
+const MAX_HP = 1
+var hp = 1
 
 enum {
   IDLE,
@@ -35,10 +35,11 @@ func _physics_process(delta):
 	if	state == FLEE:
 		state = WANDER
 	for other in get_parent().getAllArray():
-		var d = global_position.distance_to(other.global_position);
-		if ((d > 0) && (d < 50)):
-			state = FLEE
-			break;
+		if is_instance_valid(other):
+			var d = global_position.distance_to(other.global_position);
+			if ((d > 0) && (d < 50)):
+				state = FLEE
+				break;
 	match state:
 		IDLE:
 			if $Timer.is_stopped():
@@ -83,13 +84,14 @@ func flee(delta):
 	var sum : Vector2
 	var count = 0
 	for other in get_parent().getAllArray():
-		var d = global_position.distance_to(other.global_position);
-		if ((d > 0) && (d < 100)):
-		  var diff = global_position - other.global_position
-		  diff = diff.normalized()
-		  diff /= (d)
-		  sum += diff
-		  count += 1
+		if is_instance_valid(other):
+			var d = global_position.distance_to(other.global_position);
+			if ((d > 0) && (d < 100)):
+			  var diff = global_position - other.global_position
+			  diff = diff.normalized()
+			  diff /= (d)
+			  sum += diff
+			  count += 1
 	if (count > 0):
 		sum /= count 
 		sum = sum.normalized()
@@ -112,9 +114,6 @@ func handle_hit(taken_damage: int) -> void:
 [sub_resource type="CircleShape2D" id=1]
 radius = 6.408
 
-[sub_resource type="CircleShape2D" id=2]
-radius = 80.0048
-
 [sub_resource type="CircleShape2D" id=3]
 radius = 6.00559
 
@@ -124,17 +123,10 @@ script = SubResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
-hframes = 6
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 0.875 )
 shape = SubResource( 1 )
-
-[node name="Area2D" type="Area2D" parent="."]
-position = Vector2( 0, 0.875 )
-
-[node name="TauntArea" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 2 )
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
@@ -145,6 +137,4 @@ autostart = true
 [node name="Hurtbox2" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource( 3 )
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
