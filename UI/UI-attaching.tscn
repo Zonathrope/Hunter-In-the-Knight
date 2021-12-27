@@ -1,10 +1,6 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://UI/UI-attaching.gd" type="Script" id=1]
-[ext_resource path="res://UI/assets/Icon/SkullIcon3mini.png" type="Texture" id=2]
-[ext_resource path="res://UI/assets/Health/HP-test3.png" type="Texture" id=3]
-[ext_resource path="res://UI/assets/Health/HP-test1.png" type="Texture" id=4]
-[ext_resource path="res://UI/assets/Health/HP-test2.png" type="Texture" id=5]
 
 [node name="UI-attaching" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -19,54 +15,11 @@ __meta__ = {
 }
 
 [node name="Ammo" type="Label" parent="UI"]
-margin_left = 0.13339
-margin_top = 39.0543
-margin_right = 51.1334
-margin_bottom = 53.0543
+margin_left = 1.13339
+margin_top = 160.054
+margin_right = 52.1334
+margin_bottom = 174.054
 text = "Ammo: "
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Icon" type="TextureRect" parent="UI"]
-margin_right = 34.0
-margin_bottom = 37.0
-texture = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HealthSemi" type="TextureRect" parent="UI"]
-margin_left = 33.0
-margin_top = 4.0
-margin_right = 49.0
-margin_bottom = 20.0
-texture = ExtResource( 5 )
-expand = true
-stretch_mode = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HealthFull" type="TextureRect" parent="UI"]
-margin_left = 33.0
-margin_top = 4.0
-margin_right = 49.0
-margin_bottom = 20.0
-texture = ExtResource( 4 )
-expand = true
-stretch_mode = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HealthEmpty" type="TextureRect" parent="UI"]
-margin_left = 33.0
-margin_top = 4.0
-margin_right = 49.0
-margin_bottom = 20.0
-texture = ExtResource( 3 )
-stretch_mode = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
