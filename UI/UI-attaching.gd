@@ -7,9 +7,16 @@ onready var ammoLabel = $UI/Ammo
 
 var png_x = 16
 
+var dead = false
+
 func _process(delta):
-	ammoLabel.text = "Ammo:" + str(playerCurrent.ammo)
+	if !dead:
+		update_health_info(max_hp, current_hp)
+		ammoLabel.text = "Ammo:" + str(playerCurrent.ammo)
 
 func _ready():
 	ammoLabel.text = "Ammo:" + str(playerCurrent.ammo)
+
+func vanish():
+	dead = true
 

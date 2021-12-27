@@ -20,7 +20,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Caverush"
+config/name="Hunter"
 run/main_scene="res://Scenes/Hunter in the Knight.tscn"
 
 [autoload]
