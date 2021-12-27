@@ -10,17 +10,17 @@ var deerArray : Array
 
 func _ready():
 	while rabbits > 0:
-		var rabbit = preload("res://Enemies/Rabbit/Rabbit.tscn").instance()
+		var rabbit = preload("res://Animals/Rabbit/Rabbit.tscn").instance()
 		rabbitArray.append(rabbit) 
 		add_child(rabbit)
 		rabbits -= 1
 	while wolves > 0:
-		var wolf = preload("res://Enemies/Wolf/Wolf.tscn").instance()
+		var wolf = preload("res://Animals/Wolf/Wolf.tscn").instance()
 		wolfArray.append(wolf) 
 		add_child(wolf)
 		wolves -= 1
 	while deers > 0:
-		var deer = preload("res://Enemies/Deer/Deer.tscn").instance()
+		var deer = preload("res://Animals/Deer/Deer.tscn").instance()
 		deerArray.append(deer) 
 		add_child(deer)
 		deers -= 1
