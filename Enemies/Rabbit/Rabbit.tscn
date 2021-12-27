@@ -55,7 +55,6 @@ func _physics_process(delta):
 				$Timer.wait_time = 1
 		FLEE:
 			flee(delta)
-			print(global_position)
 			
 	velocity += acceleration
 	velocity = velocity.clamped(MAX_SPEED)  
@@ -104,10 +103,11 @@ func flee(delta):
 	
 func handle_hit(taken_damage: int) -> void:
 	hp -= taken_damage
-	print(taken_damage)
-	print(hp)
 	if hp <= 0:
 		queue_free()
+		
+func die():
+	queue_free()
 	
 "
 
