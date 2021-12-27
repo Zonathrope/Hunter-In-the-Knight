@@ -282,7 +282,6 @@ texture = ExtResource( 2 )
 
 [node name="Cam" type="Camera2D" parent="."]
 rotating = true
-current = true
 smoothing_enabled = true
 smoothing_speed = 20.0
 script = ExtResource( 6 )
