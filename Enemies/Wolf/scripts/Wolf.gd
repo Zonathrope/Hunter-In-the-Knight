@@ -18,6 +18,17 @@ func _physics_process(delta):
 	location = move_and_slide(location * delta)
 	acceleration *= 0 
 	
+func wander(delta):
+	var circleCenter = Vector2()
+	circleCenter = Vector2(velocity.x, velocity.y)
+	circleCenter = circleCenter.normalized()
+	circleCenter *= circle_distance
+	var displacement = Vector2(0, -1)
+	displacement *= circle_radius
+	displacement = setAngle(displacement, wanderAngle)
+	wanderAngle += randi() * angle_change - angle_change * 0.5;
+	acceleration = (circleCenter + displacement) * MAX_SPEED * delta
+	
 func seek(target, delta):
 	var desired = target - global_position
 	desired = desired.normalized()

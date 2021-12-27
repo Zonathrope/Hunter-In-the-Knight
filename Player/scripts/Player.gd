@@ -13,6 +13,7 @@ onready var current_hearts : float = stats.current_hearts
 onready var ammo : int = stats.ammo
 var mouse_position
 
+var dead = false
 
 var is_dashing = false
 var is_dash_avaliable = true
@@ -89,11 +90,8 @@ func start_dash(dash_duration: float):
 	is_dashing = true
 	dash_timer.start(dash_duration)
 	
-	
-
 func _on_dash_timer_timeout():
 	end_dash()
-
 
 func end_dash():
 	is_invulnerable = false
@@ -149,7 +147,13 @@ func _on_timer_ghost_timeout():
 func isDead():
 	if(current_hearts <= 0):
 		UI.vanish()
+		dead = true
 		queue_free()
+		
+func die():
+	UI.vanish()
+	dead = true
+	queue_free()
 
 func fire():
 	if ammo > 0:
@@ -159,7 +163,6 @@ func fire():
 		get_parent().add_child(bullet)
 		is_attacking = false
 		ammo = ammo - 1
-
 
 #handling damage
 func take_damage(damage: float):

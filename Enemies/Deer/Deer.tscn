@@ -11,7 +11,7 @@ var hp = 5
 
 enum {
   IDLE,
-  WANDER,
+  FLOCK,
   FLEE
 }
 
@@ -21,6 +21,7 @@ var acceleration = Vector2.ZERO
 var state = IDLE
 
 const MAX_SPEED = 2500
+const MAX_ACCELERATION = 100
 const TOLERANCE = 4
 
 var circle_distance = 40
@@ -33,8 +34,12 @@ func is_at_target_position():
 
 func _physics_process(delta):
 	if	state == FLEE:
-		state = WANDER
-	for other in get_parent().getAllArray():
+		state = FLOCK
+	var fleeArray : Array
+	fleeArray.append_array(get_parent().getWolvesArray())
+	#if get_parent().getPlayer() != null:
+	#	fleeArray.append(get_parent().getPlayer())
+	for other in fleeArray:
 		var d = global_position.distance_to(other.global_position);
 		if ((d > 0) && (d < 100)):
 			state = FLEE
@@ -42,12 +47,14 @@ func _physics_process(delta):
 	match state:
 		IDLE:
 			if $Timer.is_stopped():
-				state = WANDER
+				state = FLOCK
 				$Timer.start()
-				$Timer.wait_time = 2
+				$Timer.wait_time = 0.1
 			velocity *= 0
-		WANDER:
-			wander(delta)
+		FLOCK:
+			cohesion(delta)
+			separate(delta)
+			align(delta)
 			if $Timer.is_stopped():
 				state = IDLE
 				$Timer.start()
@@ -93,12 +100,68 @@ func flee(delta):
 	if (count > 0):
 		sum /= count 
 		sum = sum.normalized()
-		sum *= MAX_SPEED * 4
+		sum *= MAX_SPEED 
 		var steer = sum - velocity
-		steer = steer.clamped(MAX_SPEED*4)
-		acceleration += (steer) * delta 
+		steer = steer.clamped(MAX_SPEED)
+		acceleration += steer * delta 
 	else: 
-		state = WANDER
+		state = FLOCK
+		
+func separate(delta): 
+	var sum : Vector2
+	var count = 0
+	for other in get_parent().getDeersArray():
+		var d = global_position.distance_to(other.global_position);
+		if ((d > 0) && (d < 10)):
+		  var diff = global_position - other.global_position
+		  diff = diff.normalized()
+		  diff /= (d)
+		  sum += diff
+		  count += 1
+	if (count > 0):
+		sum /= count 
+		sum = sum.normalized()
+		sum *= MAX_SPEED 
+		var steer = sum - velocity
+		steer = steer.clamped(MAX_SPEED)
+		acceleration += steer * delta * 10 
+		
+func align(delta):
+	var sum = Vector2.ZERO
+	var count = 0
+	for other in get_parent().getDeersArray():
+		var d = global_position.distance_to(other.global_position);
+		if ((d > 0) && (d < 100)):
+			sum += other.velocity
+			count += 1
+	if (count > 0):
+		sum /= count
+		sum  = sum.normalized();
+		sum *= MAX_SPEED
+		var steer = sum - velocity
+		steer = steer.clamped(MAX_ACCELERATION)
+		acceleration += steer * delta * 1
+		
+func cohesion(delta): 
+	var sum = Vector2.ZERO
+	var count = 0
+	for other in get_parent().getDeersArray():
+		var d = global_position.distance_to(other.global_position);
+		if ((d > 0) && (d < 100)):
+			sum += other.location
+			count += 1
+ 
+	if (count > 0):
+		sum /= count
+		seek(sum, delta)
+	
+func seek(target, delta):
+	var desired = target - global_position
+	desired = desired.normalized()
+	desired *= (MAX_SPEED * 100 * delta)
+	var steer = desired - velocity
+	steer = steer.clamped(MAX_ACCELERATION)
+	acceleration += steer * 1 
 	
 func handle_hit(taken_damage: int) -> void:
 	hp -= taken_damage
@@ -118,7 +181,7 @@ radius = 80.0048
 [sub_resource type="CircleShape2D" id=3]
 radius = 6.00559
 
-[node name="Rabbit" type="KinematicBody2D"]
+[node name="Deer" type="KinematicBody2D"]
 collision_layer = 2
 script = SubResource( 4 )
 
