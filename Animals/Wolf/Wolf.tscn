@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Enemies/Wolf/scenes/Hurtbox.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Enemies/Wolf/assets/wolf_sprite.png" type="Texture" id=2]
+[ext_resource path="res://Animals/Wolf/scenes/Hurtbox.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Animals/Wolf/assets/wolf_sprite.png" type="Texture" id=2]
 
 [sub_resource type="GDScript" id=4]
 script/source = "extends KinematicBody2D
@@ -106,7 +106,7 @@ func _on_Area2D_body_entered(body):
 func seek(target, delta):
 	var desired = target - global_position
 	desired = desired.normalized()
-	desired *= (MAX_SPEED*100 * delta)
+	desired *= (MAX_SPEED *100 * delta)
 	var steer = desired - velocity
 	steer = steer.clamped(MAX_ACCELERATION)
 	acceleration += steer 
@@ -116,8 +116,6 @@ func starve():
 		
 func handle_hit(taken_damage: int) -> void:
 	hp -= taken_damage
-	print(taken_damage)
-	print(hp)
 	if hp <= 0:
 		queue_free()
 	
