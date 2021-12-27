@@ -155,7 +155,6 @@ func fire():
 	if ammo > 0:
 		var bullet = BULLET_SCENE.instance()
 		bullet.position = get_global_position()
-		print(mouse_position)
 		bullet.player = mouse_position
 		get_parent().add_child(bullet)
 		is_attacking = false
