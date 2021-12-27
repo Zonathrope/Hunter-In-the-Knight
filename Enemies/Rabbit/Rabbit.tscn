@@ -19,13 +19,15 @@ var velocity = Vector2.ZERO
 var location = Vector2.ZERO
 var acceleration = Vector2.ZERO
 var state = IDLE
+var is_near_edge: bool
+var edge_normal: Vector2
 
 const MAX_SPEED = 2500
 const TOLERANCE = 4
 
 var circle_distance = 40
 var circle_radius = 20
-var wanderAngle = 20
+var wander_angle = 20
 var angle_change = 10
 
 func is_at_target_position(): 
@@ -35,6 +37,8 @@ func _physics_process(delta):
 	if	state == FLEE:
 		state = WANDER
 	for other in get_parent().getAllArray():
+		if other == null:
+			continue
 		var d = global_position.distance_to(other.global_position);
 		if ((d > 0) && (d < 100)):
 			state = FLEE
@@ -54,35 +58,39 @@ func _physics_process(delta):
 				$Timer.wait_time = 1
 		FLEE:
 			flee(delta)
-			print(global_position)
-			
+	if is_near_edge:
+		acceleration += 2500 * edge_normal
 	velocity += acceleration
-	velocity = velocity.clamped(MAX_SPEED)  
+	velocity = velocity.clamped(MAX_SPEED)
 	location += velocity
 	location = move_and_slide(location * delta)
 	acceleration *= 0
 	
+
 func wander(delta):
-  var circleCenter = Vector2()
-  circleCenter = Vector2(velocity.x, velocity.y)
-  circleCenter = circleCenter.normalized()
-  circleCenter *= circle_distance
-  var displacement = Vector2(0, -1)
-  displacement *= circle_radius
-  displacement = setAngle(displacement, wanderAngle)
-  wanderAngle += randi() * angle_change - angle_change * 0.5;
-  acceleration = (circleCenter + displacement) * MAX_SPEED * delta
+	var circleCenter = Vector2()
+	circleCenter = Vector2(velocity.x, velocity.y)
+	circleCenter = circleCenter.normalized()
+	circleCenter *= circle_distance
+	var displacement = Vector2(0, -1)
+	displacement *= circle_radius
+	displacement = calculate_vector(displacement, wander_angle)
+	wander_angle += randi() * angle_change - angle_change * 0.5;
+	acceleration = (circleCenter + displacement) * MAX_SPEED * delta
+
   
-func setAngle(vector, value):
+func calculate_vector(vector, angle):
   var length = vector.length();
-  vector.x = cos(value) * length;
-  vector.y = sin(value) * length;
+  vector.x = cos(angle) * length;
+  vector.y = sin(angle) * length;
   return vector
 
-func flee(delta): 
+func flee(delta):
 	var sum : Vector2
 	var count = 0
 	for other in get_parent().getAllArray():
+		if other == null:
+			continue
 		var d = global_position.distance_to(other.global_position);
 		if ((d > 0) && (d < 100)):
 		  var diff = global_position - other.global_position
@@ -99,6 +107,7 @@ func flee(delta):
 		acceleration += (steer) * delta 
 	else: 
 		state = WANDER
+	
 	
 func handle_hit(taken_damage: int) -> void:
 	hp -= taken_damage
@@ -118,7 +127,7 @@ radius = 80.0048
 [sub_resource type="CircleShape2D" id=3]
 radius = 6.00559
 
-[node name="Rabbit" type="KinematicBody2D"]
+[node name="Rabbit" type="KinematicBody2D" groups=["animals"]]
 collision_layer = 2
 script = SubResource( 4 )
 

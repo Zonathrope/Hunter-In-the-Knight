@@ -20,6 +20,8 @@ enum {
 var location = Vector2.ZERO
 var velocity = Vector2.ZERO
 var acceleration = Vector2.ZERO
+var is_near_edge: bool
+var edge_normal: Vector2
 
 var target = Vector2.ZERO
 
@@ -67,6 +69,8 @@ func _physics_process(delta):
 		SEEK:
 			seek(target, delta)
 				
+	if is_near_edge:
+		acceleration += 2500 * edge_normal
 	velocity += acceleration
 	velocity = velocity.clamped(MAX_SPEED)
 	location += velocity 
@@ -84,6 +88,8 @@ func wander(delta):
 	displacement = setAngle(displacement, wanderAngle)
 	wanderAngle += randi() * angle_change - angle_change * 0.5;
 	acceleration = (circleCenter + displacement) * MAX_SPEED * delta
+	if is_near_edge:
+		acceleration += 2500 * edge_normal
 	
 func setAngle(vector, value):
 	var length = vector.length();
@@ -128,7 +134,7 @@ radius = 11.0007
 [sub_resource type="CircleShape2D" id=3]
 radius = 6.00559
 
-[node name="Wolf" type="KinematicBody2D"]
+[node name="Wolf" type="KinematicBody2D" groups=["animals"]]
 collision_layer = 2
 script = SubResource( 4 )
 
