@@ -25,7 +25,7 @@ const TOLERANCE = 4
 
 var circle_distance = 40
 var circle_radius = 20
-var wanderAngle = 20
+var wander_angle = 20
 var angle_change = 10
 
 func is_at_target_position(): 
@@ -69,8 +69,8 @@ func wander(delta):
   circleCenter *= circle_distance
   var displacement = Vector2(0, -1)
   displacement *= circle_radius
-  displacement = setAngle(displacement, wanderAngle)
-  wanderAngle += randi() * angle_change - angle_change * 0.5;
+  displacement = setAngle(displacement, wander_angle)
+  wander_angle += randi() * angle_change - angle_change * 0.5;
   acceleration = (circleCenter + displacement) * MAX_SPEED * delta
   
 func setAngle(vector, value):
