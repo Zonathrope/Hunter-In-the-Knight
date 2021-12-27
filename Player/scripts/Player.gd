@@ -13,8 +13,8 @@ var dead = false
 var is_attacking = false
 var state = "idle"
 
-export var acceleretaion = 500
-export var deacceleration = 300
+export var acceleretaion = 60
+export var deacceleration = 50
 
 onready var UI = $"../UI-attaching"
 onready var anim = $AnimationTree
@@ -45,6 +45,7 @@ func handle_movement(delta: float, move_direction: Vector2):
 		velocity = velocity.move_toward(move_direction.normalized() * speed, acceleretaion * delta)
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, deacceleration * delta)
+	velocity = velocity.clamped(50)
 	velocity = move_and_slide(velocity)
 
 func change_state(move_direction: Vector2, attack_animation):

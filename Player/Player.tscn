@@ -243,9 +243,6 @@ graph_offset = Vector2( 65, 71 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=27]
 
-[sub_resource type="RectangleShape2D" id=28]
-extents = Vector2( 10, 3.99133 )
-
 [node name="Player" type="KinematicBody2D" groups=["player"]]
 collision_mask = 6
 script = ExtResource( 1 )

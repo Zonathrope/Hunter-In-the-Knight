@@ -35,6 +35,8 @@ extents = Vector2( 416, 16 )
 extents = Vector2( 16, 208 )
 
 [node name="Field" type="Node2D"]
+position = Vector2( -921, -504 )
+scale = Vector2( 2.12676, 2.12676 )
 script = ExtResource( 2 )
 
 [node name="TileMap" type="TileMap" parent="."]
