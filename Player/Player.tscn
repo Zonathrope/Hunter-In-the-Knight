@@ -8,8 +8,7 @@
 [ext_resource path="res://Player/Cam.gd" type="Script" id=6]
 [ext_resource path="res://Player/Player_stats.gd" type="Script" id=7]
 [ext_resource path="res://Player/assets/sword.png" type="Texture" id=8]
-[ext_resource path="res://Enemies/Wolf/scenes/Bullet.tscn" type="PackedScene" id=9]
-
+[ext_resource path="res://Player/scenes/Bullet.tscn" type="PackedScene" id=9]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"

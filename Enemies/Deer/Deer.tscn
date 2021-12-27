@@ -21,11 +21,11 @@ var acceleration = Vector2.ZERO
 var state = IDLE
 
 const MAX_SPEED = 2500
-const MAX_ACCELERATION = 100
+const MAX_ACCELERATION = 1000
 const TOLERANCE = 4
 
-var circle_distance = 40
-var circle_radius = 20
+var circle_distance = 4000
+var circle_radius = 2000
 var wanderAngle = 20
 var angle_change = 10
 
@@ -40,21 +40,24 @@ func _physics_process(delta):
 	#if get_parent().getPlayer() != null:
 	#	fleeArray.append(get_parent().getPlayer())
 	for other in fleeArray:
-		var d = global_position.distance_to(other.global_position);
-		if ((d > 0) && (d < 100)):
-			state = FLEE
-			break;
+		if is_instance_valid(other):
+			var d = global_position.distance_to(other.global_position);
+			if ((d > 0) && (d < 100)):
+				state = FLEE
+				break;
 	match state:
 		IDLE:
 			if $Timer.is_stopped():
 				state = FLOCK
 				$Timer.start()
-				$Timer.wait_time = 0.1
+				var deley = rand_range(0, 1)*2
+				$Timer.wait_time = deley
 			velocity *= 0
 		FLOCK:
 			cohesion(delta)
 			separate(delta)
 			align(delta)
+			wander(delta)
 			if $Timer.is_stopped():
 				state = IDLE
 				$Timer.start()
@@ -78,7 +81,7 @@ func wander(delta):
   displacement *= circle_radius
   displacement = setAngle(displacement, wanderAngle)
   wanderAngle += randi() * angle_change - angle_change * 0.5;
-  acceleration = (circleCenter + displacement) * MAX_SPEED * delta
+  acceleration += (circleCenter + displacement) * delta 
   
 func setAngle(vector, value):
   var length = vector.length();
@@ -90,13 +93,14 @@ func flee(delta):
 	var sum : Vector2
 	var count = 0
 	for other in get_parent().getAllArray():
-		var d = global_position.distance_to(other.global_position);
-		if ((d > 0) && (d < 100)):
-		  var diff = global_position - other.global_position
-		  diff = diff.normalized()
-		  diff /= (d)
-		  sum += diff
-		  count += 1
+		if is_instance_valid(other):
+			var d = global_position.distance_to(other.global_position);
+			if ((d > 0) && (d < 100)):
+			  var diff = global_position - other.global_position
+			  diff = diff.normalized()
+			  diff /= (d)
+			  sum += diff
+			  count += 1
 	if (count > 0):
 		sum /= count 
 		sum = sum.normalized()
@@ -111,46 +115,48 @@ func separate(delta):
 	var sum : Vector2
 	var count = 0
 	for other in get_parent().getDeersArray():
-		var d = global_position.distance_to(other.global_position);
-		if ((d > 0) && (d < 10)):
-		  var diff = global_position - other.global_position
-		  diff = diff.normalized()
-		  diff /= (d)
-		  sum += diff
-		  count += 1
+		if is_instance_valid(other):
+			var d = global_position.distance_to(other.global_position);
+			if ((d > 0) && (d < 30)):
+			  var diff = global_position - other.global_position
+			  diff = diff.normalized()
+			  diff /= (d)
+			  sum += diff
+			  count += 1
 	if (count > 0):
 		sum /= count 
 		sum = sum.normalized()
 		sum *= MAX_SPEED 
 		var steer = sum - velocity
 		steer = steer.clamped(MAX_SPEED)
-		acceleration += steer * delta * 10 
+		acceleration += steer * delta * 10
 		
 func align(delta):
 	var sum = Vector2.ZERO
 	var count = 0
 	for other in get_parent().getDeersArray():
-		var d = global_position.distance_to(other.global_position);
-		if ((d > 0) && (d < 100)):
-			sum += other.velocity
-			count += 1
+		if is_instance_valid(other):
+			var d = global_position.distance_to(other.global_position);
+			if ((d > 0) && (d < 100)):
+				sum += other.velocity
+				count += 1
 	if (count > 0):
 		sum /= count
 		sum  = sum.normalized();
 		sum *= MAX_SPEED
 		var steer = sum - velocity
 		steer = steer.clamped(MAX_ACCELERATION)
-		acceleration += steer * delta * 1
+		acceleration += steer * delta
 		
 func cohesion(delta): 
 	var sum = Vector2.ZERO
 	var count = 0
 	for other in get_parent().getDeersArray():
-		var d = global_position.distance_to(other.global_position);
-		if ((d > 0) && (d < 100)):
-			sum += other.location
-			count += 1
- 
+		if is_instance_valid(other):
+			var d = global_position.distance_to(other.global_position);
+			if ((d > 0) && (d < 100)):
+				sum += other.location
+				count += 1
 	if (count > 0):
 		sum /= count
 		seek(sum, delta)
@@ -158,10 +164,10 @@ func cohesion(delta):
 func seek(target, delta):
 	var desired = target - global_position
 	desired = desired.normalized()
-	desired *= (MAX_SPEED * 100 * delta)
+	desired *= (MAX_SPEED)
 	var steer = desired - velocity
 	steer = steer.clamped(MAX_ACCELERATION)
-	acceleration += steer * 1 
+	acceleration += steer * delta  
 	
 func handle_hit(taken_damage: int) -> void:
 	hp -= taken_damage
@@ -169,6 +175,9 @@ func handle_hit(taken_damage: int) -> void:
 	print(hp)
 	if hp <= 0:
 		queue_free()
+		
+func die():
+	queue_free()
 	
 "
 
