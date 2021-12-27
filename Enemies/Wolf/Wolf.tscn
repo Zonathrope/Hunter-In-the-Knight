@@ -128,7 +128,7 @@ radius = 11.0007
 [sub_resource type="CircleShape2D" id=3]
 radius = 6.00559
 
-[node name="Wolf" type="KinematicBody2D" groups=["animal"]]
+[node name="Wolf" type="KinematicBody2D" groups=["animals"]]
 collision_layer = 2
 script = SubResource( 4 )
 
