@@ -69,11 +69,11 @@ func wander(delta):
   circleCenter *= circle_distance
   var displacement = Vector2(0, -1)
   displacement *= circle_radius
-  displacement = setAngle(displacement, wander_angle)
+  displacement = set_angle(displacement, wander_angle)
   wander_angle += randi() * angle_change - angle_change * 0.5;
   acceleration = (circleCenter + displacement) * MAX_SPEED * delta
   
-func setAngle(vector, value):
+func set_angle(vector, value):
   var length = vector.length();
   vector.x = cos(value) * length;
   vector.y = sin(value) * length;
