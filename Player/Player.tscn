@@ -1,38 +1,22 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Player/scripts/Player.gd" type="Script" id=1]
-[ext_resource path="res://Player/assets/4sideidle.png" type="Texture" id=2]
-[ext_resource path="res://Player/scripts/SwordHit.gd" type="Script" id=3]
-[ext_resource path="res://Player/assets/Shadow.png" type="Texture" id=4]
-[ext_resource path="res://Player/scenes/dash_sprite.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Player/assets/Hunter.png" type="Texture" id=2]
 [ext_resource path="res://Player/Cam.gd" type="Script" id=6]
 [ext_resource path="res://Player/Player_stats.gd" type="Script" id=7]
-[ext_resource path="res://Player/assets/sword.png" type="Texture" id=8]
-[ext_resource path="res://Enemies/Wolf/scenes/Bullet.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Player/scenes/Bullet.tscn" type="PackedScene" id=9]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
 length = 0.2
 step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("SwordHit/AttackCollision:disabled")
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.06, 0.18 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ true, false, true ]
-}
-tracks/1/type = "method"
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
 "times": PoolRealArray( 0.2 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -186,7 +170,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="CapsuleShape2D" id=10]
-radius = 3.94165
+radius = 7.00002
 height = 2.18473
 
 [sub_resource type="AnimationNodeAnimation" id=11]
@@ -265,7 +249,6 @@ extents = Vector2( 10, 3.99133 )
 [node name="Player" type="KinematicBody2D" groups=["player"]]
 collision_mask = 6
 script = ExtResource( 1 )
-dash_object = ExtResource( 5 )
 BULLET_SCENE = ExtResource( 9 )
 
 [node name="Player_stats" type="Node2D" parent="."]
@@ -284,7 +267,7 @@ anims/RunRight = SubResource( 8 )
 anims/RunTop = SubResource( 9 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-position = Vector2( 0.474945, 4.90253 )
+position = Vector2( 0, 5 )
 rotation = 1.57079
 shape = SubResource( 10 )
 
@@ -296,37 +279,9 @@ parameters/Idle/blend_position = Vector2( 0.00805151, 0.983806 )
 parameters/Run/blend_position = Vector2( -0.00559551, 0.793103 )
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -1.42109e-14, 3 )
+scale = Vector2( 1.08823, 1.16301 )
 texture = ExtResource( 2 )
-hframes = 16
-vframes = 2
-
-[node name="Shadow" type="Sprite" parent="."]
-show_behind_parent = true
-position = Vector2( 1.12003, 6.32766 )
-scale = Vector2( 0.694853, 0.453449 )
-texture = ExtResource( 4 )
-
-[node name="SwordHit" type="Area2D" parent="."]
-position = Vector2( -0.803759, 1.01693 )
-script = ExtResource( 3 )
-
-[node name="AttackCollision" type="CollisionShape2D" parent="SwordHit"]
-position = Vector2( -13.308, 1.77177 )
-shape = SubResource( 28 )
-disabled = true
-
-[node name="AttackSprite_left" type="Sprite" parent="SwordHit"]
-position = Vector2( -8.82779, -1.12936 )
-texture = ExtResource( 8 )
-
-[node name="AttackSprite_right" type="Sprite" parent="SwordHit"]
-visible = false
-position = Vector2( -7.98422, 3.54297 )
-texture = ExtResource( 8 )
-
-[node name="timer_ghost" type="Timer" parent="."]
-wait_time = 0.001
-autostart = true
 
 [node name="Cam" type="Camera2D" parent="."]
 rotating = true
@@ -336,5 +291,3 @@ smoothing_speed = 20.0
 script = ExtResource( 6 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
-[connection signal="area_entered" from="SwordHit" to="." method="_on_SwordHit_area_entered"]
-[connection signal="timeout" from="timer_ghost" to="." method="_on_timer_ghost_timeout"]

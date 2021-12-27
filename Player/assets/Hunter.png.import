@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Skeleton.png-596a200b168484438e1d6279768adce6.stex"
+path="res://.import/Hunter.png-51f60deafdb286c1b9462593411d5e48.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player/assets/Skeleton.png"
-dest_files=[ "res://.import/Skeleton.png-596a200b168484438e1d6279768adce6.stex" ]
+source_file="res://Player/assets/Hunter.png"
+dest_files=[ "res://.import/Hunter.png-51f60deafdb286c1b9462593411d5e48.stex" ]
 
 [params]
 

@@ -11,7 +11,6 @@ var dead = false
 
 func _process(delta):
 	if !dead:
-		update_health_info(max_hp, current_hp)
 		ammoLabel.text = "Ammo:" + str(playerCurrent.ammo)
 
 func _ready():

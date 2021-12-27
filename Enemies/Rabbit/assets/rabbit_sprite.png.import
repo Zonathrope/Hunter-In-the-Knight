@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Skeleton.png-596a200b168484438e1d6279768adce6.stex"
+path="res://.import/rabbit_sprite.png-5919b7ffb42585c5ac14942437191956.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player/assets/Skeleton.png"
-dest_files=[ "res://.import/Skeleton.png-596a200b168484438e1d6279768adce6.stex" ]
+source_file="res://Enemies/Rabbit/assets/rabbit_sprite.png"
+dest_files=[ "res://.import/rabbit_sprite.png-5919b7ffb42585c5ac14942437191956.stex" ]
 
 [params]
 

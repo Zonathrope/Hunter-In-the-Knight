@@ -1,8 +1,8 @@
 extends Node2D
 
-var rabbits = 0
+var rabbits = 3
 var wolves = 0
-var deers = 3
+var deers = 0
 
 var rabbitArray : Array
 var wolfArray : Array
