@@ -12,9 +12,12 @@ onready var ammoLabel = $UI/Ammo
 
 var png_x = 16
 
+var dead = false
+
 func _process(delta):
-	update_health_info(max_hp, current_hp)
-	ammoLabel.text = "Ammo:" + str(playerCurrent.ammo)
+	if !dead:
+		update_health_info(max_hp, current_hp)
+		ammoLabel.text = "Ammo:" + str(playerCurrent.ammo)
 
 func _ready():
 	update_health_info(max_hp, current_hp)
@@ -30,5 +33,6 @@ func update_health_info(max_hp, current_hp):
 		healthSemi.rect_size.x = 0
 
 func vanish():
+	dead = true
 	healthFull.rect_size.x = 0
 	healthSemi.rect_size.x = 0
