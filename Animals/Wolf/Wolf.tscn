@@ -9,9 +9,6 @@ script/source = "extends KinematicBody2D
 const MAX_HP = 2
 var hp = 2
 
-var startX = 0
-var startY = 0
-
 var state = IDLE
 
 enum {
@@ -21,7 +18,7 @@ enum {
 }
 
 var location = Vector2.ZERO
-var velocity =  Vector2(startX, startY)
+var velocity =  Vector2.ZERO
 var acceleration = Vector2.ZERO
 var is_near_edge: bool
 var edge_normal: Vector2
@@ -35,8 +32,8 @@ var angle_change = 10
 
 var dethCounter = 0
 
-const MAX_SPEED = 2500
-const MAX_ACCELERATION = 100
+const MAX_SPEED = 3000
+const MAX_ACCELERATION = 1200
 
 func _physics_process(delta):
 	if dethCounter > 60:
@@ -52,7 +49,7 @@ func _physics_process(delta):
 	for other in seekArray:
 		if is_instance_valid(other):
 			var d = global_position.distance_to(other.global_position);
-			if ((d > 0) && (d < 100)):
+			if ((d > 0) && (d < 200)):
 				if d < distance:
 					distance = d
 					target = other.global_position

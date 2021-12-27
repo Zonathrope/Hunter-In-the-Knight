@@ -22,7 +22,7 @@ var state = IDLE
 var is_near_edge: bool
 var edge_normal: Vector2
 
-const MAX_SPEED = 2500
+const MAX_SPEED = 3200
 const TOLERANCE = 4
 
 var circle_distance = 40
@@ -49,14 +49,14 @@ func _physics_process(delta):
 			if $Timer.is_stopped():
 				state = WANDER
 				$Timer.start()
-				$Timer.wait_time = 2
+				$Timer.wait_time = rand_range(0,2)*2
 			velocity *= 0
 		WANDER:
 			wander(delta)
 			if $Timer.is_stopped():
 				state = IDLE
 				$Timer.start()
-				$Timer.wait_time = 1
+				$Timer.wait_time = rand_range(0,1)*4
 		FLEE:
 			flee(delta)
 	if is_near_edge:
@@ -77,7 +77,7 @@ func wander(delta):
 	displacement *= circle_radius
 	displacement = calculate_vector(displacement, wander_angle)
 	wander_angle += randi() * angle_change - angle_change * 0.5;
-	acceleration = (circleCenter + displacement) * MAX_SPEED * delta
+	acceleration = (circleCenter + displacement) * MAX_SPEED/4 * delta
 
   
 func calculate_vector(vector, angle):
@@ -103,10 +103,10 @@ func flee(delta):
 	if (count > 0):
 		sum /= count 
 		sum = sum.normalized()
-		sum *= MAX_SPEED * 4
+		sum *= MAX_SPEED 
 		var steer = sum - velocity
-		steer = steer.clamped(MAX_SPEED*4)
-		acceleration += (steer) * delta 
+		steer = steer.clamped(MAX_SPEED)
+		acceleration += steer 
 	else: 
 		state = WANDER
 	
