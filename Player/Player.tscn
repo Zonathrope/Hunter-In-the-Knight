@@ -10,7 +10,6 @@
 [ext_resource path="res://Player/assets/sword.png" type="Texture" id=8]
 [ext_resource path="res://Enemies/Wolf/scenes/Bullet.tscn" type="PackedScene" id=9]
 
-
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
 length = 0.2
@@ -263,7 +262,7 @@ graph_offset = Vector2( 65, 71 )
 [sub_resource type="RectangleShape2D" id=28]
 extents = Vector2( 10, 3.99133 )
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=["player"]]
 collision_mask = 6
 script = ExtResource( 1 )
 dash_object = ExtResource( 5 )
