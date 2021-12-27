@@ -69,14 +69,14 @@ func wander(delta):
   circleCenter *= circle_distance
   var displacement = Vector2(0, -1)
   displacement *= circle_radius
-  displacement = set_angle(displacement, wander_angle)
+  displacement = calculate_vector(displacement, wander_angle)
   wander_angle += randi() * angle_change - angle_change * 0.5;
   acceleration = (circleCenter + displacement) * MAX_SPEED * delta
   
-func set_angle(vector, value):
+func calculate_vector(vector, angle):
   var length = vector.length();
-  vector.x = cos(value) * length;
-  vector.y = sin(value) * length;
+  vector.x = cos(angle) * length;
+  vector.y = sin(angle) * length;
   return vector
 
 func flee(delta): 
