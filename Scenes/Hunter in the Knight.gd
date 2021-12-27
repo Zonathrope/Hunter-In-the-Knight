@@ -1,8 +1,8 @@
 extends Node2D
 
 var rabbits = 3
-var wolves = 0
-var deers = 0
+var wolves = 3
+var deers = 9
 
 var rabbitArray : Array
 var wolfArray : Array
@@ -11,16 +11,22 @@ var deerArray : Array
 func _ready():
 	while rabbits > 0:
 		var rabbit = preload("res://Animals/Rabbit/Rabbit.tscn").instance()
+		rabbit.startX = 200
+		rabbit.startY = 200
 		rabbitArray.append(rabbit) 
 		add_child(rabbit)
 		rabbits -= 1
 	while wolves > 0:
 		var wolf = preload("res://Animals/Wolf/Wolf.tscn").instance()
+		wolf.startX = -200
+		wolf.startY = 200
 		wolfArray.append(wolf) 
 		add_child(wolf)
 		wolves -= 1
 	while deers > 0:
 		var deer = preload("res://Animals/Deer/Deer.tscn").instance()
+		deer.startX = -200
+		deer.startY = -200
 		deerArray.append(deer) 
 		add_child(deer)
 		deers -= 1

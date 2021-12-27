@@ -9,6 +9,9 @@ script/source = "extends KinematicBody2D
 const MAX_HP = 3
 var hp = 3
 
+var startX = 0
+var startY = 0
+
 enum {
   IDLE,
   FLOCK,
@@ -16,7 +19,7 @@ enum {
 }
 
 var velocity = Vector2.ZERO
-var location = Vector2.ZERO
+var location = Vector2(startX, startY)
 var acceleration = Vector2.ZERO
 var state = IDLE
 var is_near_edge: bool
