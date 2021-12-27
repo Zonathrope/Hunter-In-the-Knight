@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/rabbit_sprite.png-5919b7ffb42585c5ac14942437191956.stex"
+path="res://.import/deer_sprite.png-b0395870aeb23d1510209b378cc72531.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Enemies/Rabbit/assets/rabbit_sprite.png"
-dest_files=[ "res://.import/rabbit_sprite.png-5919b7ffb42585c5ac14942437191956.stex" ]
+source_file="res://Animals/Deer/assets/deer_sprite.png"
+dest_files=[ "res://.import/deer_sprite.png-b0395870aeb23d1510209b378cc72531.stex" ]
 
 [params]
 
